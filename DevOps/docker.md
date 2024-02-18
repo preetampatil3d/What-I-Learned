@@ -178,7 +178,8 @@ services:
 
 --------- Container Layer -------------------
 - Read Write (COPY ON WRITE)
-- User can only modify on Copy of image (container) 
+- User can only modify on Copy of image (container)
+  
 --------- Image Layer -----------------------
 - Read only
 - docker consume or use memory if already executed(build)
