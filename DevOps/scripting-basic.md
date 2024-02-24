@@ -15,3 +15,16 @@ for arg in "$@"; do
     echo "Argument: $arg"
 done
 ```
+
+
+## Process
+
+> Find processs and kill
+```
+#find process
+ps -p $(lsof -t -i:8080)
+
+#kill
+kill -9 <PID from last command>
+
+```
