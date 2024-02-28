@@ -120,6 +120,12 @@ docker login  # Will ask for credentials, Enter username and password
 docker pull image-name
 docker push image-name
 ```
+### publis to docker hub
+```
+docker build -t preetam1910/image:tag .
+docker push preetam1910/image:tag
+```
+
 
 ## docker-compose.yml 
 - Run combinition of images togeather like (Web+DB)
