@@ -28,14 +28,19 @@ example of request body json file
 ### CLI UTIL:
 Eaither access httpyac from global directory "/projects/dir/.npm-global/./httpyac"
 or we can access it from npm package npm run httpyac 
-$httpyac [.http file path] [options]
+```
+# Install
+npm install -g httpyac
+
+# usage
+httpyac [.http file path] [options]
 [options]
 --repeat n # repeat request for n number
 --all # execute all request from .http file 
 --name NameOfTheRequest # Execute specific request 
 --json # response in json format 
 --output short #
-
+```
 
 ### Eclipse:
 Run cli command/ external util from eclipse
