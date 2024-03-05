@@ -51,3 +51,33 @@ c1.andThen(c2).accept(10)
 Supplier<Double> s1 = () -> Math.random();
 s1.get()
 ```
+
+
+# Maker/tagging Interface : Interface that dont have any methods / Empty
+- It Provides run time information about object, So compiler and JVM have addtional information about object.
+- Example : Clonable , Serialisable
+- If we try to clone/Serialize Object which has not implemented clonable/serializable. Then JVM will throw and error.
+
+- Custom
+```
+// create maker ineterface
+public interface deletable{} 
+
+// Implement to add this tag/metadata to indicate that this is deletable
+public Class UserEntity implements Deletable{ 
+}
+
+// Add check in Dao to skip delete if deletable in implemented
+public Class DataDao{
+  public boolean delete(Object obj){
+    if(! obj.isInstanceOf(deletable)){
+      return false;
+    }
+    // delete implementaion
+    return true;
+  }
+
+}
+
+
+``` 
