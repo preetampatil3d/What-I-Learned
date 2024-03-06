@@ -76,8 +76,51 @@ public Class DataDao{
     // delete implementaion
     return true;
   }
+}
+```
 
+## Serialization / Deserialization : By converting byteStream we can send over network & save in DB.
+- Serialization : Converting state of object into ByteStream. Derialization : ByteStream is converted into actual object.
+- serialversionUID : This version Id is associated with each serializable class which is used while deserialization to check and verify compatability between sender and receiver. In case of missmatch , It will encounter 'InvalidClassExcepption'
+```
+  private static final long serialversionUID = 129348938L;
+```
+
+> [!NOTE]
+> Only non-static member are serialized
+> static and transient data members are not saved in Serialization process.
+> Class must implement Serializable, If Parent class has implemented. It is not required for child.
+
+  ![serialize-deserialize-java](https://github.com/preetampatil3d/What-I-Learned/assets/21255598/f1983259-26ce-45e1-97c6-1283a738c28a)
+
+  
+```
+public class UserData implement Serializable{
+  String name;
+  Int Age;
 }
 
+public class MainClass{
+  public static void main(String arr[]){
+    // Serialize - write object to file
+    UserData data = new userData("Name", 25);
+    FileOutputStream fo = new FileOutputStream("file-path.txt")
+    ObjectOutputStream oo = new ObjectOutputStream(fo);
 
-``` 
+    oo.writeObject(data);
+    fo.close();
+    oo.close();
+
+    // Deserialize - read and create actual object
+    FileInputStream fi = new FileInputStream("file-path.txt");
+    ObjectInputStream oi = new ObjectInputStream(fi);
+
+    UserData data1 = (UserData) oi.readObject(oi);
+    fi.close();
+    oo.close(); 
+  }
+}
+```
+
+
+ 
