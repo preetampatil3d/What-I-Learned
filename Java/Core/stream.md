@@ -159,7 +159,46 @@ out.println("sum[0,100) : "+rangeSum);
 //rangeClosedSum=0+1+2+3+...+100=5050
 int rangeClosedSum=IntStream.rangeClosed(0,100).sum();
 out.println("sum[0,100] : "+rangeClosedSum);
+```
+## GroupBy: Group list of objects for specific key
+- Return type : Map<KeyType,List<Object>>
+- Available methods
+1. groupBy(Function)
+```
+List<Book> bookList = new ArrayList<>();
+bookList.add(new Book(7, "computer", 54.00, 1));
+bookList.add(new Book(8, "computer1", 56.00, 1));
+bookList.add(new Book(8, "computer3", 60.00, 2));
 
+Map<Integer,List<Book>> groupByKey = listOfBooks.stream().collect(
+	Collectors.groupBy(Book::getRating())
+);
+
+```
+2. groupBy(Function, Collectors) : If we want to perform some reduction operation
+```
+Map<Integer, List<String>> listOfNamesInGroup = bookList.stream().collect(
+	Collectors.groupingBy(
+		Book::getRating, 
+		Collectors.mapping(Book::getName, Collectors.toList())) // to perform reduction
+);
+// Additional example of List of names
+List<Sring> listOfNames = listOfBooks.stream().collect(
+	Collectors.mapping(
+		Book::getName(), 
+		Collectors.toList()
+	)
+)
+
+```
+3. groupBy(Function, Supplier, Collector) : If we want to result in some specific Map type we can make use of supplier (TreeMap, HashMap)
+```
+TreeMap<Integer,List<String>> groupByRatingInHashTable = bookList.stream().collect(
+	Collectors.groupingBy(Book::getRating, 
+		TreeMap::new,  // Add supplier which will return desired map type
+		Collectors.mapping(Book::getName, Collectors.toList())
+		)
+);
 ```
 
 # Comparable Vs Comparator
@@ -180,3 +219,32 @@ out.println("sum[0,100] : "+rangeClosedSum);
 List<Integer> numberList = new ArrayList(Arrays.asList(1,2,3));
 int sum = numberList.stream().mapToInt(x -> x).sum();
 ```
+
+- Example related to groupBy and Map
+```
+// get More user hobbies
+List<Person> list = List.of(new Person("A", 10, new String[] { "Hobbi1", "Hobbi2" }),
+				new Person("B", 10, new String[] { "Hobbi1" }), new Person("C", 10, new String[] { "Hobbi2" }),
+				new Person("D", 10, new String[] { "Hobbi1", "Hobbi3" }));
+
+// Step 1: create list of hobbies
+List<String> listOfHobbies = list.stream().flatMap(p -> Arrays.stream(p.getHobbies()))
+				.collect(Collectors.toList());
+
+// Step 2: Count each hobbies using groupBy
+Map<String, Long> countByHobbies = listOfHobbies.stream()
+				.collect(Collectors.groupingBy(hobby -> hobby, Collectors.counting()));
+
+// Step 3: Sort list by count in Descending order
+countByHobbies = countByHobbies.entrySet().stream()
+				.sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+countByHobbies.forEach((k, v) -> System.out.println(k + ":" + v));
+
+// Step 3: get list of hobbies in descending order wrt count
+List<String> listOfHobbiesDesc = countByHobbies.entrySet().stream()
+				.sorted(Map.Entry.<String, Long>comparingByValue().reversed()).map(Map.Entry::getKey)
+				.collect(Collectors.toList());
+listOfHobbiesDesc.forEach(h -> System.out.println(h));
+```
+
