@@ -241,10 +241,37 @@ countByHobbies = countByHobbies.entrySet().stream()
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 countByHobbies.forEach((k, v) -> System.out.println(k + ":" + v));
 
-// Step 3: get list of hobbies in descending order wrt count
+// Step 3.1: get list of hobbies in descending order wrt count
 List<String> listOfHobbiesDesc = countByHobbies.entrySet().stream()
 				.sorted(Map.Entry.<String, Long>comparingByValue().reversed()).map(Map.Entry::getKey)
 				.collect(Collectors.toList());
 listOfHobbiesDesc.forEach(h -> System.out.println(h));
+```
+
+- Exacmple related to Sort, limit, skip
+```
+// get More user hobbies
+List<Person> list = List.of(new Person("A", 10, new String[] { "Hobbi1", "Hobbi2" }, 102),
+new Person("B", 10, new String[] { "Hobbi1" }, 101),
+new Person("C", 10, new String[] { "Hobbi2" }, 104),
+new Person("D", 10, new String[] { "Hobbi1", "Hobbi3" }, 103),
+new Person("D", 10, new String[] { "Hobbi1", "Hobbi3" }, 105),
+new Person("D", 10, new String[] { "Hobbi1", "Hobbi3" }, 106));
+
+// Sort Employee in descending order
+list = list.stream()
+	.sorted(Comparator.comparing(Person::getSalary).reversed())
+	.collect(Collectors.toList());
+
+// Employee with top 3 salary
+list = list.stream()
+	.limit(3)
+	.collect(Collectors.toList());
+
+// Find Employee having salary less than 3rd salary
+list = list.stream()
+	.sorted(Comparator.comparing(Person::getSalary).reversed())
+	.skip(3)
+	.collect(Collectors.toList());
 ```
 
