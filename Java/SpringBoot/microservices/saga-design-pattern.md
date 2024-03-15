@@ -8,7 +8,7 @@ Distrubuted Design pattern- https://www.youtube.com/watch?v=nH4qjmP2KEE
 - Every MicroService should have failure code along with regular or happy code flow. So that it will called in case of failure
 - In Case of failure at one Microservice , It will trigger each MS in reverse order till starting point for Failure Code execution.
 > [!NOTE]
-> This is not roll back, This Revert.
+> This is not roll back, Instead it is Revert.
 > For example payment MS, Payment will be reverted or send back to customer.
 
 ### Two Ways:
