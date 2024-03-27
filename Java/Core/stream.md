@@ -211,6 +211,38 @@ TreeMap<Integer,List<String>> groupByRatingInHashTable = bookList.stream().colle
 | 4) Comparable is present in java.lang package. | A Comparator is present in the java.util package. |
 | 5) We can sort the list elements of Comparable type by Collections.sort(List) method. | We can sort the list elements of Comparator type by Collections.sort(List, Comparator) method. |
 
+## Sorting HashMap
+```
+Map<String, Integer> hm = new HashMap<String, Integer>();
+hm.put("a", 2);
+hm.put("c", 1);
+hm.put("b", 3);
+		
+// Sort By value : ASC
+hm = hm.entrySet().stream()
+	.sorted(Map.Entry.comparingByValue())
+	.collect(Collectors.toMap(
+		Map.Entry::getKey,
+		Map.Entry::getValue,
+		(oldValue,newValue) -> oldValue, LinkedHashMap::new )
+	);
+		
+// Sort By value : DSC
+hm = hm.entrySet().stream()
+.sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+.collect(Collectors.toMap(
+		Map.Entry::getKey,
+		Map.Entry::getValue,
+		(oldValue,newValue) -> oldValue, LinkedHashMap::new )
+	);
+hm.forEach((k,v) -> System.out.println(k + " - " + v));
+		
+// Sort By Key
+Map<String, Integer> hmByKey = new HashMap<String, Integer>();
+hm.entrySet().stream()
+.sorted(Map.Entry.comparingByKey())
+.forEach(x -> hmByKey.put(x.getKey(), x.getValue()));
+```
 
 
 
