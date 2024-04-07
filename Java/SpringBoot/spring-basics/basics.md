@@ -1,0 +1,90 @@
+### Dependency Injection
+1. Setter Injection
+	- Injection happens through the setter method. Add @Autowired on top of the setter
+2. Constructor Injection: Prefered as per spring documentation 
+	- Injection happens through the constructor. Add @Autowired on top of the constructor
+	- Faster as it loaded at the time of bean initialization.
+3. Field Injection
+	- Add @Autowired on top of the field directly. Spring will use reflection to wire this bean and inject.
+
+
+- Setter vs Constructor
+
+| Setter | Constructor |
+| --- | --- |
+| slower than Constructor | faster, injected at time of initialization |
+| Use for Optional dependencies | Use of Mandetory Dependencies |
+| | Preferered By Spring |
+
+### Component vs Controller vs Service vs Repository 
+
+| Component | Controller | Service | Repository |
+| --- | --- | --- | --- |
+| Parent of other anotation / Generic | MVC | Business Layer | Data Layer |
+| | | | It will add JDBC exception |
+
+### Spring Application Context
+
+```
+// Define/Declare ApplicationContext
+@Configuration
+class SpringContext{
+}
+// Usage : Spring
+ApplicationContext cntx = AnnotationConfigApplicationContext(SpringContext.class);
+
+// Usage : Spring Boot
+@SpringBootApplication // Everything will be handled by spring automatically 
+public class SpringBootDemoApp{
+}
+```
+
+### Autowiring
+
+- ByType: matches with field type
+  - If Autowired Bean is a class it looks for a specific class
+  - If it is an interface it looks for its implementation class
+
+- ByName
+  - If the Interface has multiple interfaces, then it will match its name
+
+```
+// Declaration and implementation
+Public interface Algo{
+}
+@Component
+Public class QuickSortAlgo implements Algo{}
+@Component
+Public class BubbleSortAlgo implements Algo{}
+
+// Usage
+@Autowired
+Private Algo bubbleSortAlgo; // It will inject a bean of bubbleSort 
+
+```
+
+- By Constructor
+  - Same like ‘Type’ but through a constructor
+ 
+### @Primary , @Qualifier 
+If two matching implementations of the interface are present spring will through NoUniqueBeanException
+To solve this we can use the following options
+- Proper Naming: We can name it properly with the implementation class which we want to inject.
+- @Primary: using @Primary along with @Component. So that it will picked in such a case.
+- @Qualifier: Bean will injected based on name provided in qualifier
+	```
+	@Component
+	@Qualifier(“customName”)
+	public class QuickSortAlgo implements Algo{}
+
+	@Autowired
+	@Qualifier(“customName”)
+	QuickSortAlgo demoBean;	
+	```
+
+
+
+
+
+
+
