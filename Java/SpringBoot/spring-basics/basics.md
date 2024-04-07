@@ -60,7 +60,6 @@ Public class BubbleSortAlgo implements Algo{}
 // Usage
 @Autowired
 Private Algo bubbleSortAlgo; // It will inject a bean of bubbleSort 
-
 ```
 
 - By Constructor
@@ -81,6 +80,80 @@ To solve this we can use the following options
 	@Qualifier(“customName”)
 	QuickSortAlgo demoBean;	
 	```
+
+### Exclude embeded tomcat and use jetty
+```
+<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+	<dependency>
+	    <groupId>org.springframework.boot</groupId>
+	    <artifactId>spring-boot-starter-jetty</artifactId>
+	</dependency>
+</dependencies>
+```
+
+### @ConfigurationProperties - Configure and use Custom properties
+```
+@Component
+@ConfigurationProperties("basic")
+class BasicProperties{
+	String name; // name from property will be mapped here
+	String email; // email from property will be mapped here
+}
+// Usage
+@Autowired
+BasicProperties basicProp;
+
+// Application.properties
+basic.name=
+basic.email=
+```
+
+### Profiles: Create and set property file for individual environment
+```
+// Create env specific properties
+application-dev.properties
+application-prod.properties
+// Default property file where we defile active property
+application.properties
+spring.profile.active=prod
+
+// Using cmd
+Dspring.profile.active=prod
+```
+
+### SpringBootActuator
+- To use it, we need to add its Maven dependency
+- Usage
+	- Base path  /application
+	- /env: show all the info related to env where the application is deployed and versions.
+	- /autoconfiguration: PositiveMatches, NegitiveMatches
+	- /metrics: details related to, heap, thread, gc, processes, sessions: number of errors encountered, number of success request
+	- /beans: beans Configured
+	- /mapping: Rest URL mapping
+
+## CommandLineRunner: 
+Add code to run if we want to execute that when spring launch application
+```
+public class UserRepoCommandLineRunner implemennts CommandLineRunner {
+	@Override
+	public void run(String args){
+		// Add code which we want to load/execute at time spring launches application
+	}
+}
+```
+
+
+
 
 
 
