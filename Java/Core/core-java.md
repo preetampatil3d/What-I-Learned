@@ -1,6 +1,6 @@
 ## String/ array of character/ Immutable Object
 - String is refered as immutable because its value cannot be changed. 
-	- Instead whenever value changed, new obeject is created and old value is copied. To prevent this we can make it ''
+	- Instead whenever value changed, new object is created and old value is copied.
 - All Warpper classes are immutable and Thread safe.
 
 - Mutable String : Create String using StringBuilder(**Not Thread-Safe**) and StringBuffer (**Thread-Safe**).
@@ -33,7 +33,7 @@ that is only one copy of static variable will be created at the time of class lo
 > Static method
 - static method can access only static variables or static methods.
 -static methods are faster than instance methods.
-[reason: instance methods and var use pointer internally while static does not. it accesses data directly that's why its faster ]
+[reason: instance methods and variables use pointer internally while static does not. it accesses data directly that's why its faster ]
 ```
 public class staticexample{
 	int i=10;
@@ -71,6 +71,13 @@ Non static block
 Non static block
 ```
 
+## Abstract Class vs Interface
+| Abstract Class | Interface |
+| --- | --- |
+| Contains Abstract and non-abstract methods | contains only abstract methods |
+| Contains final, non-final, static, non static variables | Contains final & static variables |
+| As its class, it doesn’t support multiple inheritance | support multiple inheritance | 
+| support all access modifiers | by Default its public |
 
 
 
