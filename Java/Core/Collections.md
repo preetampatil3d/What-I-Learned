@@ -1,5 +1,3 @@
-
-
 ## Default methods present in Collecrtion
 
 | Method | Description |
@@ -84,10 +82,14 @@ Node [DATA,Pointer] - Pointer points to memory of next Node
 
 ## 1. HashSet 
 - No insertion order maintained
-- uses ** Hash Table ** data structure 
-
-
-# Coparator / Comparable
+- Internally **Hash Map** to store unique records. (key:givenvValue, value:PRESENT)
+- add(key) : Add method internally store data in hashMap.
+  - map always return existing value if key exist. if not exist then return null. So data inserted sucessfully
+  ```
+  add(T k){
+	return map.put(k,PRESENT) == null;
+   }
+  ```
 
 
 
