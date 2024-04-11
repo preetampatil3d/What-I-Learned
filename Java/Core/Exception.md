@@ -48,13 +48,13 @@ public void demo() throws Exception
 - Throwable is super class of all Exception and Errors.
 - If we want create our own custom Exception then need to extend Throwable.
 - Throwable is super class of Error & Exception. We can create Custom exception by extending Exception/Throwable
+- Error : StackOverflowError, OutOfMemoryError, VirtualMachineError
 ```
 public class CustomException extends Throwable{
     public void CustomException(String error){
     super(error);
   }
 }
-
 public class MainClass{
   piblic static void main(String args[]){
     int i = 0;
