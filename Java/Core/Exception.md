@@ -30,6 +30,15 @@ public class MainClass{
 ```
 
 # Throw , Throws , Throwable
+
+| Throw | Throws |
+| --- | --- |
+| Throw Exception Manually | Declare Exception, indicate that method may throw Exception  |
+| Used within method | used with method signature |
+| Throw Single Exception | can declare multiple Exception |
+| throw new Exception() | throws Exception  |
+
+
 ## Throw
 - Used to **throw Exception manually** from inside any method, But that Exception must of type java.lang.Exception
 ```
@@ -64,3 +73,26 @@ public class MainClass{
 }
 ```
 
+| Exception | Error |
+| --- | --- |
+| Can be recovered using try-catch blocks | cannot be recoved |
+| Related to application | related to environment| 
+| Checked and unchecked | only unchecked |
+| java.lang.Exception | java.lang.Error |
+
+## Some addtional points
+
+**Unrelachanble Catch block**
+- declare catch blocks in such way that Parent Exception should be at botton and child at top
+- if child Exception declared at botton, Parent at top. child always unreachable
+```
+catch(Exception e){
+}catch(NullPointerException ne){// unreachable
+}
+```
+
+**MultiCatch block** java 7
+```
+catch(NullPointerException | SQLException ex){}
+
+```
