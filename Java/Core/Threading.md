@@ -1,12 +1,13 @@
-Link: https://www.youtube.com/watch?v=TpYIcJN9EV8
+
 
 ## Multitasking:
-Process-based multitasking: Allow multiple processes to run simultaneously on single memory 
-Expensive when multiple context switching happens
-Thread-based multitasking: Multiple Threads run within a single process simultaneously on the same memory location.
-Lightweight, context switch done within a single process or at the same memory location
+- Process-based multitasking: Allow multiple processes to run simultaneously on single memory 
+- Expensive when multiple context switching happens
+- Thread-based multitasking: Multiple Threads run within a single process simultaneously on the same memory location.
+- Lightweight, context switch done within a single process or at the same memory location
 
 ## Basic Thread Concepts
+- Reference: https://www.youtube.com/watch?v=TpYIcJN9EV8
 - Process: Whenever we try to execute the program, a process is created and then multiple threads will be created.
 
 - Context switching: When Process/Thread switches to another Process/Thread. While switching to another Process/Thread, the Current process/Thread is Paused and a new memory location/pointer is loaded into the CPU of the new process.
@@ -64,9 +65,9 @@ Process 1 . . .
 ## Challenges
 > Concurrency issues like DeadLock, Data Inconsistency, Race condition 
 
-DeadLock: 
-The thread is waiting for the object lock which is acquired by another thread.
-Two or more threads are blocked forever, waiting for each other.
+**DeadLock**: 
+- The thread is waiting for the object lock which is acquired by another thread.
+- Two or more threads are blocked forever, waiting for each other.
 ```
 class DeadLockExClass {
   public static void main(String[] args) throws Exception {
@@ -110,14 +111,12 @@ class SharedClass {
 }
 ```
 
-Data Concurrency:
-Multiple threads access and modify common data which can lead to data inconsistency / Race condition.
+**Data Concurrency:**
+- Multiple threads access and modify common data which can lead to data inconsistency / Race condition.
 
-Race condition:
-Case 1: Condition in which two or more threads compete/Race together to get shared resources.
-Case 2 or example: Thread 1 tries to read from the linked list and Thread 2 tries to delete same data which leads to a race condition and results in a run time error. 
-
-
+**Race condition:**
+- Case 1: Condition in which two or more threads compete/Race together to get shared resources.
+- Case 2 or example: Thread 1 tries to read from the linked list and Thread 2 tries to delete same data which leads to a race condition and results in a run time error. 
 
 ## Thread Code level
 
@@ -142,7 +141,7 @@ Case 2 or example: Thread 1 tries to read from the linked list and Thread 2 trie
 5. Terminated (TERMINATED)- finish job, or exception.
 
 ### Create Thread
-1. Extending Thread Class
+**1. Extending Thread Class**
 ```
 Public class ThreadClass extends Thread{
 	public static void main(String args[]){
@@ -154,7 +153,7 @@ Public class ThreadClass extends Thread{
 	}
 }
 ```
-2. Using Runnable Interface & lamda exp
+**2. Using Runnable Interface & lamda exp**
 ```
 public class App implements Runnable
 {
@@ -186,13 +185,31 @@ public class App implements Runnable
 ThreadPool container where a fixed size thread are created and which are pull and assigned by 
 - fixed size thread pool is created and thread from the thread pool is pulled. assigned a job by the Service provider.
 
+Example:
+```
+ExecutorService executor = new FixedThreadPoolExecutor(10);
+
+Thread t1 = new Thread(() -> sys("Thread1"));
+Thread t2 = new Thread(() -> sys("Thread2"));
+executor.execute(t1);
+executor.execute(t2);
+
+while(!executor.isTerminated()){
+	executor.shutdown();
+}
+```
+
+### Callable & Future
+
+
+### Use of Blocking Queue
 
 
 ## Thread Scheduler
-The scheduler decides which thread to execute and which thread to wait. 
-It decides based on 
-Priority: Each Thread has a priority between 1 to 10. (1 > 10)
-Time of arrival: If two threads with the same priority. Then arrival time will be considered.
+- The scheduler decides which thread to execute and which thread to wait. 
+- It decides based on 
+	- Priority: Each Thread has a priority between 1 to 10. (1 > 10)
+	- Time of arrival: If two threads with the same priority. Then arrival time will be considered.
 
 ## Daemon Thread
 It's a background running thread with low priority.
@@ -203,6 +220,66 @@ t1.setDaemon(true); // t1 Thread will become Daemon Thread
 Thread.currentThread().isDaemon(); // return true if Daemon Thread
 ```
 
+## Mutex & Semaphore
+
+| Semaphore | Mutex | ReentranLock (Example of Mutex) |
+|---|---|---|
+| Restrict the number (Declare count) of threads that can be accessed to resource | Only one Thread can be accessed | Type of Mutex |
+| Ex: Limit max 10 connections to access a file simultaneously | Ex: Only 1 Thread can access file at time |  |
+| Non-ownership-release, Any Thread can release lock | No-ownship-release | Only owner can release the lock, Thread which has created lock can release it |
+| Semaphore sp = new Semaphore(10) | Semaphore mtx = new Semaphore(1) / ReentranLock / Synchronize | Lock lock = new ReentranLock() | 
+| sp.aquire() , sp.release(), sp.availablePermits() | | lock.lock(), lock.unlock() |
+
+> [!NOTE] If there is no special case like DB Transaction or any such operations we can go Sychronized instead of Semaphore. Synchronized block will take care of lock & release.
+
+- Example of Semaphore & Mutex (using semaphore)
+```
+public final static Semaphore semaphore = new Semaphore(2); // use '1' in case of mutex
+...
+public class MyThread extends Thread{
+	String name;
+	void MyThread(String name){
+		this.name = name;
+	}
+
+	void run(){
+		semaphore.aquire();
+		try{
+			System.out.println(name +" Thread has started, waiting count "+semaphore.availablePermits());
+			Thread.sleep(2000);
+		}catch(Exception e){
+		}finally{
+		semaphore.release();
+		// Print - semaphore.availablePermits()
+		}	
+	}
+}
+public static void main(String[] args){
+	MyThread t1=new MyThread("A");
+	t1.start();
+	MyThread t2=new MyThread("B");
+	t2.start();
+	MyThread t3=new MyThread("B"); // It will be waiting for semaphore
+	t3.start();
+}
+```
+
+- Example of Reentrantlock
+```
+private final Lock lock = new Reentrantlock(true);
+...
+public void processRequest(){
+	lock.lock();
+	try{
+		// Code
+	}catch(){
+	}finally{
+	lock.unlock();
+	}
+}
+```
+
+
 ## Interview
-Can we start Thread twice?: No, If we do then it will throw ‘IllegalThreadStateException’
-Call run() directly: Considered a normal object method
+- Can we start Thread twice?: No, If we do then it will throw ‘IllegalThreadStateException’
+- Call run() directly: Considered a normal object method
