@@ -122,8 +122,8 @@ class SharedClass {
 
 ### Thread Methods
 
-| Methods | Descriptio |
-| —- | —- |
+| Methods | Description |
+|---|---|
 | t1.start() | start Thread | 
 | t1.join() | Make a current thread to wait for another thread to finish |
 | Thread.sleep(10) | wait for specified seconds |
@@ -155,7 +155,7 @@ Public class ThreadClass extends Thread{
 ```
 **2. Using Runnable Interface & lamda exp**
 ```
-public class App implements Runnable
+public class ThreadUsingRunnable implements Runnable
 {
     public static void main( String[] args )
     {
@@ -176,6 +176,27 @@ public class App implements Runnable
 	}
 }
 ```
+**3. Using Lymda Expression**
+```
+// before Lymda expression 
+Runnable runnable = new Runnable() {
+	@Override
+	public void run() {
+		System.out.println("Thread started");
+	}
+};
+Thread t1 = new Thread(	
+	runnable
+);
+t1.start();
+	
+// Remove boiler of code
+Runnable r = () -> { System.out.println("Thread started"); }; // Lymda expression, pass it to Thread
+Thread t2 = new Thread( r );
+	
+// Final
+Thread t3 = new Thread(()-> System.out.println("Thread Started"));
+```
 
 ### Thread Pool . 
 - Thread pool manages the pool of worker thread. which are the pulled and assigned task by Service provider.
@@ -187,15 +208,14 @@ ThreadPool container where a fixed size thread are created and which are pull an
 
 Example:
 ```
-ExecutorService executor = new FixedThreadPoolExecutor(10);
-
-Thread t1 = new Thread(() -> sys("Thread1"));
-Thread t2 = new Thread(() -> sys("Thread2"));
-executor.execute(t1);
-executor.execute(t2);
-
-while(!executor.isTerminated()){
-	executor.shutdown();
+ExecutorService service = Executors.newFixedThreadPool(10);
+for(int i=0;i <10; i ++) {
+	Thread t = new Thread(() -> System.out.println("Thread Started : " + Thread.currentThread().getName()) );	
+	t.setName("Thread " + i);	
+	service.submit(t);
+}
+while(!service.isTerminated()) {
+	service.shutdown();
 }
 ```
 
