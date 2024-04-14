@@ -91,5 +91,10 @@ Node [DATA,Pointer] - Pointer points to memory of next Node
    }
   ```
 
-
+### Synchronized vs Concurrent Collection w.r.t. HashMap
+| Synchronized | Concurrent Collection |
+| --- | --- |
+| Thread Safe | Thread safe |
+| Slower | Faster |
+| When a Synchronized block is used with HashMap, It will block the whole map when it is being modified. | In Concurrent HashMap, when one bucket is being modified, it blocks only a specific block instead of the whole Map. | 
 
