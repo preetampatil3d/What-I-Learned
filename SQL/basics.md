@@ -20,14 +20,19 @@
 
 
  ### How does the Index work?
- 
 - When we apply index for Column, Data Structure/View is created with indexedColumn and pointer to a specific row. 
 	- Data structure is sorted by indexed column with ‘BTree/Binary Tree’
 	- Pointer is an address in memory of a specific row/Record.
 - The query looks for the specific row in the index; the index refers to the pointer which will find the rest of the information.
 - Indexing reduces the number of row query has to search
 
+### Primary Key and Unique Key
 
+| Primary Key | Unique Key |
+|---|---|
+| The primary key is a field or combination of fields that uniquely identify each record in the table | Unique Key is field which contain unique data in column |
+| Primary key can not be null/Empty | can be null, But only one null, As it is also Unique |
+| Can not have more than one primary key | Can have more than one unique fields | 
 
 ### Using the CASE statement
 - Condition-based result. We can use CASE in select or in ORDER BY
