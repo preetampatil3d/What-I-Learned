@@ -160,15 +160,15 @@ public class ThreadUsingRunnable implements Runnable
     public static void main( String[] args )
     {
         // Using runnable
-        Thread t2 = new Thread(new App());
-        t2.start(); 
+        Thread t1 = new Thread(new ThreadUsingRunnable());
+        t1.start(); 
         
     	// Using lamda exp
-        Runnable r1 = () -> {
+        Runnable r = () -> {
         	System.out.println("Running Thread using Lamda");
         };
-        Thread t1 = new Thread(r1);
-        t1.start();
+        Thread t2 = new Thread(r);
+        t2.start();
     }
 	@Override
 	public void run() {
@@ -210,7 +210,7 @@ Example:
 ```
 ExecutorService service = Executors.newFixedThreadPool(10);
 for(int i=0;i <10; i ++) {
-	Thread t = new Thread(() -> System.out.println("Thread Started : " + Thread.currentThread().getName()) );	
+	Thread t = new Thread(() -> System.out.println("Thread Started : " + Thread.currentThread().getName()) );
 	t.setName("Thread " + i);	
 	service.submit(t);
 }
