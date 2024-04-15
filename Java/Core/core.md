@@ -32,7 +32,7 @@ that is only one copy of static variable will be created at the time of class lo
 - lifetime of static variable is throughout execution of program.
 > Static method
 - static method can access only static variables or static methods.
--static methods are faster than instance methods.
+- static methods are faster than instance methods.
 [reason: instance methods and variables use pointer internally while static does not. it accesses data directly that's why its faster ]
 ```
 public class staticexample{
