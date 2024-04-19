@@ -219,10 +219,26 @@ while(!service.isTerminated()) {
 }
 ```
 
-### Callable & Future
+## Callable & Future
+- It can be used for Case, Response/Return some result from Thread.
+- It will Return Future<T> Instance. In short, it will start Thread and Execute the next code after the Future statement. When we try to get a result from the Future object. Then it will block the main Thread until execution from callable is finished.
+- Future<T>: It contains a value which will be arrived in future.
+- We can set a timeout for the Future. Ie. If a specific Task is not complete in the provided time. It will through Exceptions and move to the next Operations. Ex: future.get(1, TimeUnit.SECOND);
 
+```
+ExecutorService service = Executors.newFixedThreadPool(2);
+Future<String> future = service.submit(new CallableThread());
+// .. executor other/unrelated operation
+String result = future.get(); // here it will block the main Thread until executor from Callable.call() completes.
 
-### Use of Blocking Queue
+Class CallableThread implements Callable<String>{
+	public String call(){
+		return “Test String”;
+	}
+}
+```
+
+## Use of Blocking Queue
 
 
 ## Thread Scheduler
