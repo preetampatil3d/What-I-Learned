@@ -26,11 +26,12 @@ if(a2 == a3) //
 
 ## Static Keyword
 > Static Variable
-- Sometimes, you want to have variables that are common to all objects. This is accomplished with the static modifier. Fields that have the static modifier in their declaration are called static fields or class variables.
-- static variables are stored in data segment. you may create any number of instance the same variable from same location is used.
+- Sometimes, you want to have variables that are **common to all objects**. This is accomplished with the static modifier. Fields that have the static modifier in their declaration are called static fields or class variables.
+- static variables are **stored in data segment**. you may create any number of instance the same variable from same location is used.
 that is only one copy of static variable will be created at the time of class loading no matter how many object you create.
 - lifetime of static variable is throughout execution of program.
 > Static method
+- **Static Method cannot override**
 - static method can access only static variables or static methods.
 - static methods are faster than instance methods.
 [reason: instance methods and variables use pointer internally while static does not. it accesses data directly that's why its faster ]
@@ -70,6 +71,52 @@ static block
 Non static block
 Non static block
 ```
+> Static class: All static classes are nested classes.
+- Outer class can not be static.
+- Access only static member of Outer class.
+- Why we need Static nested class
+   - Create Singlton Class
+   - Helper Class: Classes that assist in various tasks like logging, validation, or configuration. These helper classes often don't need to maintain state.
+   - Utility Classes: utility classes typically contain methods that perform common tasks and don't require any instance-specific data
+- Cons: Overusing static classes can lead to tightly coupled code, which can be harder to maintain and test
+  
+- Terms:  
+   - Nested Class: Static or non-static class defined inside Class.
+   - Inner class: Non-static class defined inside class.
+   - Outer class: Class which has nested class.
+
+## Final
+- Final Variable: Used to create constants
+  - Variables created with final **cannot be reassigned**.
+  - But If Object declared with final, Its attribute can be modified
+  ```
+  final int a = 5;
+  a = 6; // Compilation issue, Cannot reaasign final, Either initial a with null or remove final
+
+  // Below example will work as we are modifying its attributes
+  final StringBuilder str = new StringBuilder("a");
+  final Employee emp = new Employee("name");
+  str.append("b");
+  emp.setName("new Name");
+  ```
+- final method: **Restrict method overriding**, Gives compilation issue if we try to override.
+- final class: **Restrict class for extending**. Gives compilation issue if child class try to extend final class.
+
+## Abstract: Used with Class & Method
+- abstract keyword is used to achieve abstraction, which is the process of hiding certain details and showing only the essential information.
+- To create an Abstract method, We need to have an abstract class. However abstract classes may have a non-abstract method as well.
+- Abstract Class: Cannot be instatiated directly, They must extend by another class
+- Abstract Method: are methods that do not have a body. They must be implemented by the concrete class that extends the abstract class.
+- Some Rules:
+- Don’t:
+   - We can not create abstract methods in non-abstract classes.
+   - We can not declare Abstract with final, private & static.
+   - Can’t be Synchronized.
+   - Abstract class, can’t be instantiated.
+- Do’s
+   - Applicable to only method & class
+   - If the Class extends the Abstract class, It must implement at least one abstract method.
+   - can contain overloaded methods , constructor, inner abstra
 
 ## Abstract Class vs Interface
 | Abstract Class | Interface |
