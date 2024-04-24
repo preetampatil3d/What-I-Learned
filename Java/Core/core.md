@@ -126,5 +126,24 @@ Non static block
 | As its class, it doesn’t support multiple inheritance | support multiple inheritance | 
 | support all access modifiers | by Default its public |
 
+## Types of relationship in OOPS
+1. IS-A (Inheritance): Relationship that is established between two classes using inheritance.
+2. Association (HAS-A): This is the relation between two separate classes. One-to-One, One-to-Many, Many-to-One, Many-to-Many.
+   Type of Associations:
+	1. Aggregation: Belongs-to
+	- UniDirection relation: One-way relation.
+	- Department -> Student, student belongs to Department , But Department  doesn't belongs to Student.
+	Both Objects can Survive individually
+	2. Composition: Part-Of
+	- Restricted form of Aggregation, Where both entries are highly dependent.
+	- The composed object can not exist without another Object.
+	- Company -> Department, A Company can not exist without a department and a department can not exist without a Company
+	Car -> Engine
+
+| Aggregation | Composition |
+| --- | --- |
+| Belongs-to | Part-Of |
+| Object can Survive Individually | Highly Dependent, Can not exist without another |
+| employee belongs to company | Department is Part-Of Company, Engine is Part-of Car | 
 
 
