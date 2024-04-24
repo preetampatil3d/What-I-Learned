@@ -14,6 +14,10 @@ Public interface EmployeeRepository extends JpaRepository<Employee,Long>{
 
 	@Query(“from #{#entityName} where firstName = ?1”) // name will be taken from Repository entity
 
+	// In Order to Perform Operations like DELETE, INSERT, UPDATE and DDL we need to annotate with @Modifying
+	@Modifying
+	@Query("update Employee e set e.active = false where u.lastLoginDate < ?1")
+	void deactivateEmployeeNotLoggedInSince(LocalDate date);
 }
 
 ```
