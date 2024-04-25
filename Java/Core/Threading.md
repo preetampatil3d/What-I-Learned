@@ -257,6 +257,7 @@ Thread.currentThread().isDaemon(); // return true if Daemon Thread
 ```
 
 ## Mutex & Semaphore
+Semaphore & Mutex focus on how Thread access the Resources. and Restrict them.
 
 | Semaphore | Mutex | ReentranLock (Example of Mutex) |
 |---|---|---|
