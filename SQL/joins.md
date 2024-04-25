@@ -69,3 +69,7 @@ Select * from Employee , Department
 Select * from Employee CROSS JOIN Department
 
 ```
+
+## Union & Union All
+- Union: Combine results from Both tables and return distinct Records
+- UnionAll: Combine results from both tables and return all Records.
