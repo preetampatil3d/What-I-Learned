@@ -316,6 +316,134 @@ public void processRequest(){
 }
 ```
 
+## Producer - Consumer - Program
+```
+import java.util.LinkedList;
+
+class ProducerConsumer  {
+  public static void main(String[] args) throws InterruptedException{
+    final PC pc = new PC();
+   
+      Thread producer = new Thread(() -> {
+        try{
+        	pc.produce();
+        }catch(Exception e){
+        }
+      });
+
+      Thread consumer = new Thread(() -> {
+        try{
+        	pc.consume();
+        }catch(Exception e){
+          
+        }
+      });
+      producer.start();
+      consumer.start();
+
+      producer.join();
+      consumer.join();
+  }
+}
+class PC{
+  int capacity = 2;
+  LinkedList<Integer> list = new LinkedList<Integer>();
+  
+  public void produce() throws InterruptedException{
+    int value = 0;
+    while(true){
+      synchronized(this){
+        if(list.size() == capacity){
+          wait(); 
+        }
+        value++;
+        list.add(value);
+        notify();
+        
+        System.out.println(Thread.currentThread().getName()+ " - Producre - has added value " + value);
+        Thread.sleep(1000); 
+      }
+    } 
+  }
+  public void consume() throws InterruptedException{
+    while(true){
+      synchronized(this){ 
+        if(list.size() == 0){
+          wait();
+        }
+        int value = list.removeFirst();
+        notify();
+        
+        System.out.println(Thread.currentThread().getName()+ " - Consumer - has revomed value " + value);
+        Thread.sleep(1000);
+      }   
+    }
+  } 
+}
+```
+
+## Thread DeadLock Case & Solutions 
+```
+class DeadLockExClass {
+  public static void main(String[] args) throws Exception {
+    
+    String resource1 = "Resource 1";
+    String resource2 = "Resource 2";
+    
+    Thread t1 = new Thread(new ThreadClass(resource1,resource2),"Thread 1");
+    Thread t2 = new Thread(new ThreadClass(resource2,resource1),"Thread 2");
+    t1.start();
+   // t1.join(); // to avoid dead Lock
+    t2.start();
+  }
+  
+  public static class ThreadClass implements Runnable{
+    String resource1;
+    String resource2;
+    public ThreadClass(String resource1,String resource2){
+      this.resource1 = resource1;
+      this.resource2 = resource2;
+    }
+   
+    public void run(){
+      try{
+		//Thread.sleep(2000);
+     	SharedClass shared = new SharedClass();
+        
+        shared.sharedMethod(resource1,resource2);
+        
+      }catch(Exception e){
+        e.printStackTrace();
+      }
+    }  
+  }  
+}
+
+class SharedClass {
+  public SharedClass(){
+  }
+  public void sharedMethod(String resource1,String resource2){
+    
+    synchronized(resource1){
+      
+      System.out.println("Resource "+resource1+" is locked by " + Thread.currentThread().getName());
+      
+     // try{ Thread.sleep(2000);    }catch(Exception e){ e.printStackTrace();}
+      
+      
+      System.out.println(Thread.currentThread().getName() + " waiting for resource " + resource2 + " to unlock");
+      
+      synchronized(resource2){
+        
+        System.out.println("Resource 2 inside Resource 1 accessed by " + Thread.currentThread().getName());
+      }   
+    } 
+  }  
+}
+
+```
+
+
 
 ## Interview
 - Can we start Thread twice?: No, If we do then it will throw ‘IllegalThreadStateException’
