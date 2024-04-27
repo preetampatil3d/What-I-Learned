@@ -153,7 +153,7 @@ Dspring.profile.active=prod
 	- /mapping: Rest URL mapping
 
 ## CommandLineRunner: 
-Add code to run if we want to execute that when spring launch application
+
 ```
 public class UserRepoCommandLineRunner implemennts CommandLineRunner {
 	@Override
@@ -162,6 +162,51 @@ public class UserRepoCommandLineRunner implemennts CommandLineRunner {
 	}
 }
 ```
+
+## Runner interfaces (Functional Interface / Similar to Static Block): 
+- One-time execution Code is placed in run() of Runner Bean Class.
+- If the Application has two CommandLine & Application implementations present the CL Runner will have high-priority 
+- If the Application has multiple Runner implementations  of the same type then it will be alphabetically executed
+**Types:**
+1. CommandLineRunner:
+- Get all Optional & no-Optional arguments in the String[] array
+```
+// Argument: 11 str123 - - name=Preetam
+// 11 , str123 : non optional arguments
+// - - name=Preetam : Optional arguments
+@Component
+Public class DemoRunner implements CommandLineRunner{
+	// Injections. . .
+	@Override
+	public void run(String… args) throws Exception{
+		//One-time code
+		System.out.println(Arrays.toString(args));
+	}
+}
+```
+2. ApplicationRunner
+- Get all Optional & no-Optional arguments in ApplicationArguments Object.
+```
+Public class DemoRunner implements ApplicationRunner{
+	// Injections. . .
+	@Override
+	public void run(ApplicationArguments args) throws Exception{
+		//One-time code
+		List<String> nonOptionArgs = args.getNonOptionArgs();
+		Set<String> optionArgs = args.getOptionNames();
+	}
+}
+```
+
+> [!NOTE]
+>  Static blocks are used for one-time execution,  Then why Runner?
+
+Diff between static block & Runner
+| Static Block | Runner |
+| --- | --- |
+| Cannot use non-static data | Can access static data in Runner |
+| It does not allow passing values from outside | Allos to pass data/Args to run(), command line argument can be passed / Inject Bean |
+| It does not support exception propagation | It supports Exception handling | 
 
 
 
