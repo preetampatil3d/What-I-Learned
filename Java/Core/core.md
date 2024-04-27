@@ -21,8 +21,6 @@ if(a1 == a4) // true
 if(a2 == a3) //
 if(a2 == a3) // 
 ```
-   
-
 
 ## Static Keyword
 > Static Variable
@@ -118,9 +116,69 @@ Non static block
    - If the Class extends the Abstract class, It must implement at least one abstract method.
    - can contain overloaded methods , constructor, inner abstra
 
+## Interface
+- Used to Achieve Abstraction , Multiple inheritance & loose coupling.
+- Variable: By default, they are ‘public static final’. Can not changed!
+	- Variables can not be declared non-static & non non-final. Because Interface are contracts that implemented class must follow. Non-static / non-final variables might violate that contract. Like by modifying the value from Interface.
+- Abstract Method: By default, they are ‘public abstract’
+- Java 8 - static & default methods are introduced, By default they are public.
+- Java 9 - private & static private method are introduced.
+  ```
+  interface InterfaceName{
+	  private void method1(){
+		// Code
+	  }
+	  private static void method2(){
+		// Code
+	  }
+  }
+  ```
+```
+Interface InterfaceName{
+	// declare Constants:
+	int MIN = 2; // 'public static final' (can not be changed)
+	
+	// declare abstract methods 
+	void print(); // by default it is 'public abstract'
+	
+	// default methods, By default its public, we can explicitly declare private
+	static void staticMethod(){
+		//
+	}
+	//static methods, By default its public
+	default void defaultMethod(){
+		//
+	}
+}
+
+public class ConcreteClass implements InterfaceName{
+	@override
+	public void print(){
+		InterfaceName.staticMethod(); // call static method
+		InterfaceName.super().defaultMethod(); // call default method
+	}
+	@override
+	public void defaultMethod(){ // We can override default method
+	}
+	@Override // Compilation issue , It will ask to remove @override
+	public void staticMethod(){ // 
+		// we can have this method without @override, This is not overriden method, This is separate method.
+		// If we try to do same in clild class which extends Parent Class, It will not allow even by removing @override
+	}
+
+}
+
+// from outside
+InterfaceName.staticMethod(); // call static method
+ConcreteClass obj = new ConcreteClass(); 
+obj.defaultMethod();
+```
+
 ## Abstract Class vs Interface
 | Abstract Class | Interface |
 | --- | --- |
+| Used for Abstraction | Used for Abstraction | 
+| Can be instantiated | can not instantiated , as it dont have constructor |
 | Contains Abstract and non-abstract methods | contains only abstract methods |
 | Contains final, non-final, static, non static variables | Contains final & static variables |
 | As its class, it doesn’t support multiple inheritance | support multiple inheritance | 
