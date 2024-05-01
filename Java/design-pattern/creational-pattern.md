@@ -15,6 +15,91 @@ Public class SingletonClass{
 }
 ```
 
+- **Thread safe**
+```
+Public class SingletonClass{
+	private static volatile SingletonClass obj ;
+	private SingletonClass(){ }
+	public SingletonClass getInstance(){
+		if(obj == null){ // Additional check
+			synchronized(SingletonClass.class){ // if we want to make our class Thread safe, Note: Spring components are not Thread safe
+			if(obj == null){
+			obj = new SingletonClass();
+			}
+		}
+		}
+		return obj;
+	}
+}
+```
+
+- **Break using serialization**: If we serialize and deserialize Object (SingletonClass.getInstance()), We can see two different Object create
+```
+SingletonClass obj = SingletonClass.getInstance();
+ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(new File(“/path/file.ser”)));
+os.writeObject(obj);
+
+ObjectInputStream is = new ObjectInputStream(new FileInputStream(new File(/path/file.ser)));
+SingletonClass  obj2 = (SingletonClass) is.readObject(is); // her its creates new Object
+```
+- Solution for issue with serialization
+```
+Public class SingletonClass implements Serializable{
+	private static final Long serialVersionUID = 1L;
+	private static final SingletonClass obj ;
+	private SingletonClass(){ }
+	public SingletonClass getInstance(){
+		if(obj == null){
+			obj = new SingletonClass();
+		}
+		return obj;
+	}
+
+ 	private Object readResolve(){ // While deserializing , It will retuen existing created Object
+		return obj;
+	}
+}
+```
+
+- Problem: If some class extends SingletonClass and invokes super.clone() in overridden clone(), it will create a new Instance
+- Solution: implement cloneable and override clone() and throw exception
+```
+Public class SingltonClass implement cloneable{
+	…
+	@Override
+	private Object clone(){
+		throw new CloneNotSupportedException();
+	}
+}
+```
+
+- **Reflection Problem:** Break by making the constructor accessible using the reflection
+```
+SingltonClass obj = SingltonClass.getInstance();
+SingltonClass obj2 = null;
+Constructor[] constructors = SingltonClass.class.getDeclaredConstructor();
+for(Constructor con: constructors){
+	con.setAccessible(true);
+
+	obj2 = con.newInstance();
+}
+```
+Solution: Use Enum, As Enum doesn't have a constructor. We should use this only in the Extreme case.
+```
+Public enum EnumSingleton{
+	INSTANCE;
+	private String name;
+	// public getter/setter for name
+
+}
+// Use case
+EnumSingleton obj = EnumSingleton.INSTANCE;
+obj.setName();
+obj.getName(“Name”);
+```
+
+
+
 ## 2. Factory Pattern
 - Its creational Design Pattern provides an Interface for creating Objec without specifying a concrete class. It encapsulates object creational logic in the separate class known as the factory.
 - Problem: Currently we have a single Trade Type (SLB). All its creational code is present in its Concrete class (SLBTradeCreator). In order to create SLB Trade we create an instance of SLBTradeCreator using ‘new’. But what if we have another Trade? We need to modify and configure a major part of the code.
