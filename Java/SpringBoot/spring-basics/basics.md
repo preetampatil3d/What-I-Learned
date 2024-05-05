@@ -152,21 +152,13 @@ Dspring.profile.active=prod
 	- /beans: beans Configured
 	- /mapping: Rest URL mapping
 
-## CommandLineRunner: 
-
-```
-public class UserRepoCommandLineRunner implemennts CommandLineRunner {
-	@Override
-	public void run(String args){
-		// Add code which we want to load/execute at time spring launches application
-	}
-}
-```
 
 ## Runner interfaces (Functional Interface / Similar to Static Block): 
 - One-time execution Code is placed in run() of Runner Bean Class.
 - If the Application has two CommandLine & Application implementations present the CL Runner will have high-priority 
 - If the Application has multiple Runner implementations  of the same type then it will be alphabetically executed
+- We can set order by annotating the Runner class with @order(10)
+	- Additionally, implement the Ordered interface to the Runner class and override getOrdered(){ return 0;}
 **Types:**
 1. CommandLineRunner:
 - Get all Optional & no-Optional arguments in the String[] array
