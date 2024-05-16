@@ -307,3 +307,18 @@ list = list.stream()
 	.collect(Collectors.toList());
 ```
 
+> Sort list by Grade
+```
+List<String> grades = List.of("A-","A","C","C+","A++");	
+List<String> gradeOrder = List.of("A++", "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "F");
+Map<String,Integer> positions = new HashMap<>();
+for(int i=0;i<gradeOrder.size();i++) {	
+	positions.put(gradeOrder.get(i), i+2);
+}
+		
+grades.stream()
+.sorted(Comparator.comparingInt(positions::get))
+.forEach(e -> System.out.println(e));
+```
+
+
