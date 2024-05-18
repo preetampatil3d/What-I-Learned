@@ -95,3 +95,15 @@ spring.data.session.timeout=1800
 # SpringBoot version < 3
 spring.redis.host
 ```
+
+## Quick start redis
+```
+# Create and start redis
+docker run -d --name redis -e REDIS_ARGS="--requirepass redis@123" -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+
+#login
+redis-cli -a redis@123
+
+# Hit command
+KEYS *
+```
