@@ -1,18 +1,19 @@
 ## String/ array of character/ Immutable Object
 - String is refered as immutable because its value cannot be changed. 
-	- Instead whenever value changed, new object is created and old value is copied.
-- All Warpper classes are immutable and Thread safe.
+	- Instead, whenever a value changes, a new object is created, and old value is copied.
+- All Wrapper classes are immutable and thread-safe.
 
 - Mutable String : Create String using StringBuilder(**Not Thread-Safe**) and StringBuffer (**Thread-Safe**).
 - Advantages : 
-	- Security: sensitive data like username, password, connection can be stored and which can not be manupulated by hackers.
-	- Sychronization: Can be shared with other threads and be asured data can not be modified
-	- Performance: Due to String Pool
+	- Security: sensitive data like username, password, and connection can be stored and which can not be manupulated by hackers.
+	- Synchronisation: Can be shared with other threads and be asured data can not be modified
+	- Performance: Due to the String Pool
+
  - Example
-```
+``` declarative
 String a1 = "Hi"; // Stored at new memory/String Pool
 String a2 = "Hi"; // Search for 'Hi' in String Pool and points to previously created pool.
-String a3 = new String("Hi"); // It will Not search in Pool instead it will be stored at new memory location.
+String a3 = new String("Hi"); // It will Not search in Pool instead, it will be stored at new memory location.
 String a4 = new String("Hi").itern(); // intern will will search string in pool
 
 if(a1 == a2) // true
@@ -21,6 +22,41 @@ if(a1 == a4) // true
 if(a2 == a3) //
 if(a2 == a3) // 
 ```
+
+- String vs String builder vs String Buffer
+
+| String | String Builder | String Buffer |
+| --- | --- | --- |
+| Immutable | Mutable | Mutable |
+| Thread-Safe | Not Thread-Safe | Thread-Safe |
+| Slower | Faster | Slower |
+| Used when data is constant | Used when data is changing frequently | Used when data is changing frequently in multi-threaded env |
+| String pool | Stored in heap memory | Stored in heap memory |
+| Example: String s = "abc"; | Example: StringBuilder sb = new StringBuilder("abc"); | Example: StringBuffer sbf = new StringBuffer("abc"); |
+
+> *** String is immutatble which makes it thread safe also allow JVM to cache string literals in String constance pool, 
+However, Immutability also means that any modifications will create new objects, in some case like loops, request processing, execisive  string creation will increase head]p usage and GC Presure
+***
+
+```declarative
+// Using + inside loops creates unnecessary temporary objects and increases GC pressure; StringBuilder avoids this.
+// Bad code: create 1000 string objects
+String result = "";
+for (int i = 0; i < 1000; i++) {
+    result = result + i;
+}
+// correct code: using StringBuilder
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) {
+sb.append(i);
+}
+String result = sb.toString();
+
+// Create unnecessary objects using new keyword
+String str1 = new String("example"); // creates a new object in heap along with string pool object
+
+```
+
 
 ## Static Keyword
 > Static Variable
@@ -204,4 +240,51 @@ obj.defaultMethod();
 | Object can Survive Individually | Highly Dependent, Can not exist without another |
 | employee belongs to company | Department is Part-Of Company, Engine is Part-of Car | 
 
+## Equals() & HashCode()
+- Equals(): Used to compare two objects for content equality.
+- HashCode(): Used to generate a unique integer value for each object, based on its memory address.
 
+- **Contract**: If two objects are equal according to the equals() method, then they must have the same hashcode. 
+  However, the reverse is not necessarily true; two objects with the same hashcode may not be equal.
+
+```declarative
+// Example of same hashcode but not equal objects
+Character c1 = 'A';
+Character c2 = 'B';
+System.out.println("c1: " + c1 + ", hashCode: " + c1.hashCode());
+System.out.println("c2: " + c2 + ", hashCode: " + c2.hashCode());
+System.out.println("c1.equals(c2): " + c1.equals
+OUTPUT:
+c1: A, hashCode: 65
+c2: B, hashCode: 66
+c1.equals(c2): false
+```
+> **Note:** Shallow compare(o1 == o2): Compare memory address , Deep Compare(o1.equals(o2)): compare values
+
+- For Object compare or use of object as key in hashmap, we must override equals() & hashCode() methods.
+  - equals(): add deep compare 
+  - hashCode(): two objects must have the same hashcode if they are identical.
+
+- hashSet & hashMap:  map.put(**key**, value)
+  - hashCode() to determine the bucket location for storing objects. If two objects have the same hashcode, they will be stored in the same bucket, and 
+  - equals() is used to check for equality within that bucket.
+
+```declarative
+// example for overriding equals & hashcode
+@Override
+boolean equals(Objects obj){
+    if(obj == null && this.getClass() != obj.getClass()) 
+        return false;
+    if(this == obj) // shallow compare by memory address
+        return true;
+
+    Employee emp = (Employee) obj;
+    return this.id = emp.id && this.name.equals(emp.name); // deep compare
+}
+
+@Override
+int hashcode(){
+    return Objects.hash(id, name); // generate hashcode based on attributes
+}
+
+```
