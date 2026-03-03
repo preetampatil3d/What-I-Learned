@@ -69,7 +69,8 @@ Process 1 . . .
 
 
 ## Virtual Thread
-![img.png](../../resources/img.png)
+<img width="646" height="618" alt="Screenshot 2026-03-03 at 11 03 22 PM" src="https://github.com/user-attachments/assets/32eff81d-2156-48ef-8db7-f65c86bbea7f" />
+
 
 - Virtual Thread is a lightweight thread that is managed by the Java Virtual Machine (JVM) rather than the operating system. It allows for a large number of concurrent threads without the overhead associated with traditional threads. Virtual threads are designed to be more efficient and scalable, making them ideal for applications that require high concurrency, such as web servers or real-time systems.
 - Use case:
