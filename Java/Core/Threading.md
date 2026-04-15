@@ -259,14 +259,96 @@ while(!service.isTerminated()) {
 }
 ```
 
-## Callable & Future
-- It can be used for Case, Response/Return some result from Thread.
-- It will Return Future<T> Instance. In short, it will start Thread and Execute the next code after the Future statement. When we try to get a result from the Future object. Then it will block the main Thread until execution from callable is finished.
-- Future<T>: It contains a value which will be arrived in future.
-- We can set a timeout for the Future. Ie. If a specific Task is not complete in the provided time. It will through Exceptions and move to the next Operations. Ex: future.get(1, TimeUnit.SECOND);
+## ThreadLocal
+- ThreadLocal is a class in Java that provides thread-local variables. 
+- It allows you to create variables that are local to a specific thread, meaning that each thread has its own copy of the variable. This can be useful for storing data that is specific to a particular thread, such as user session information or database connections.
+- Example:
+```
+public class ThreadLocalExample {
+    private static ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
+
+    public static void main(String[] args) {
+        Runnable task = () -> {
+            threadLocal.set((int) (Math.random() * 100)); // Set a random value for each thread
+            System.out.println(Thread.currentThread().getName() + " - ThreadLocal Value: " + threadLocal.get());
+        };
+
+        Thread t1 = new Thread(task);
+        Thread t2 = new Thread(task);
+        Thread t3 = new Thread(task);
+
+        t1.start();
+        t2.start();
+        t3.start();
+    }
+}
+```
+
+
+## Sychronized & Atomic Variable
+- Synchronized: Use synchronized keywork with method to make mthod thread safe, It will ensure only one thread will be using that method.
+    - Example: public synchronized void methodName() { // code }
+- Custom Synchronized block: If we want to make specific code block thread safe instead of whole method, we can go with sychronized block.
+  - Object lock=new Object(); synchronized(lock) { // code block }
+- Atomic Variable: To be more presice if we want make variable thread safe we can use Atomic variable. It will ensure that only one thread can update the variable at a time. It provides atomic operations for updating the variable, 
+  - Example: AtomicInteger, AtomicLong, AtomicReference
+  - AtomicInteger atomicInt =  new AtomicInteger(0);
+  - Thread safe: atomicInt.getAndIncrement();
+  - Not Thread safe:  atomicInt.set(atomicInt.get() + 1);
+  - Atomic - Not partial execution. Thus, it is thread-safe.
+
+## Lock & ReentrantLock
+- Lock: It is an interface from java.util.concurrent.locks package  
+- provides more flexibility for controlling access to shared resources than the synchronized keyword. 
+
+```declarative
+public class LockDemo {
+    public static void main(String args[]) throws InterruptedException {
+        BankAccount account = new BankAccount();
+        Runnable thread = () -> {
+            try {
+                account.withdraw(10.0);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        ExecutorService service = Executors.newFixedThreadPool(100);
+        for(int i = 0; i<100; i++){
+            service.execute(thread);
+        }
+        service.shutdown();
+        service.awaitTermination(2, TimeUnit.MINUTES);
+        System.out.println(account.getBalance()); // Expected : 10
+    }
+
+    public static class BankAccount{
+        double balance = 1000.00;
+        Lock lock = new ReentrantLock();
+        public void  withdraw(double amount) throws InterruptedException {
+            lock.lock();
+            Thread.sleep(100);
+            if(balance >= amount){
+                balance = balance - amount;
+            }else{
+                System.out.println("Not enough balance");
+            }
+            lock.unlock();
+        }
+        public double getBalance(){
+            return balance;
+        }
+    }
+}
 
 ```
-ExecutorService service = Executors.newFixedThreadPool(2);
+
+
+## Callable & Future
+- Used if Response/Return required from Thread, it will return Future<T> Object.
+- Code flow will be blocked after we call Future.get() or service.awaitTermination(timeout, TimeUnit.SECONDS) until execution from callable is finished.
+
+```
+ExecutorService service = Executors.newFixedThreadPool(1);
 Future<String> future = service.submit(new CallableThread());
 // .. executor other/unrelated operation
 String result = future.get(); // here it will block the main Thread until executor from Callable.call() completes.
@@ -317,8 +399,8 @@ new Thread(() -> {
 Example:
 
 ## Daemon Thread
-It's a background running thread with low priority.
-When the user/main thread completes. This Thread also gets destroyed automatically
+- It's a background running thread with low priority.
+- When the user/main thread completes. This Thread also gets destroyed automatically
 Example: GC
 ```
 t1.setDaemon(true); // t1 Thread will become Daemon Thread
@@ -370,7 +452,7 @@ public static void main(String[] args){
 }
 ```
 
-- Example of Reentrantlock
+- Example of ReentrantLock
 ```
 private final Lock lock = new Reentrantlock(true);
 ...
