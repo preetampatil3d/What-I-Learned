@@ -1,7 +1,8 @@
 ## String/ array of character/ Immutable Object
-- String is refered as immutable because its value cannot be changed. 
+- String is as immutable because its value cannot be changed. 
 	- Instead, whenever a value changes, a new object is created, and old value is copied.
-- All Wrapper classes are immutable and thread-safe.
+- All Wrapper classes are immutable and thread-safe , As wrapper classes are immutable, since data can not be changed. no risk of overriding value by another thread. Thus it is thread safe. 
+- String buffer is Thread safe because almost every method (insert,append,delete) in StringBuffer are marked with synchronized keyword.
 
 - Mutable String : Create String using StringBuilder(**Not Thread-Safe**) and StringBuffer (**Thread-Safe**).
 - Advantages : 
