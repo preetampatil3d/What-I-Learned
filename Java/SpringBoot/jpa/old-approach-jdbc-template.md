@@ -17,8 +17,20 @@ handling - Resource cleanup
 ### Uses positional parameters (`?`)
 
 ``` java
-String sql = "SELECT * FROM employee WHERE id = ?";
+public class EmployeeRowMapper implements RowMapper<Employee> {
+    @Override
+    public Employee mapRow(ResultSet rs, int rowNum)
+            throws SQLException {
+        Employee employee = new Employee();
+        employee.setId(rs.getLong("id"));
+        employee.setName(rs.getString("name"));
+        employee.setDepartment(rs.getString("department"));
+        return employee;
+    }
+}
+// ------
 
+String sql = "SELECT * FROM employee WHERE id = ?";
 Employee emp = jdbcTemplate.queryForObject(
     sql,
     new EmployeeRowMapper(),
@@ -32,6 +44,15 @@ Employee emp = jdbcTemplate.queryForObject(
 String sql = "INSERT INTO employee(id, name) VALUES(?, ?)";
 
 jdbcTemplate.update(sql, id, name);
+```
+
+### If your column names match your Java fields (Pojo, Dto), you can use Spring’s built-in BeanPropertyRowMapper:
+- 
+```
+List<AbcBalanceDto> results = jdbcTemplate.query(
+        sql,
+        new BeanPropertyRowMapper<>(AbcBalanceDto.class));
+
 ```
 
 ### Advantages
