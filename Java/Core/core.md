@@ -289,3 +289,21 @@ int hashcode(){
 }
 
 ```
+
+## DATA TYPES
+- Primitive Data Types: byte, short, int, long, float, double, char, boolean
+- Non-Primitive Data Types: String, Arrays, Classes, Interfaces, etc.
+
+- Size of Primitive Data Types with their default values , range , wrapper classes and example:
+
+
+| Primitive Type | Size | Default Value | Range | Wrapper Class | Example |
+|---------------|------|---------------|-------|---------------|---------|
+| `byte` | 1 byte (8 bits) | `0` | -128 to 127 | `Byte` | `byte age = 25;` |
+| `short` | 2 bytes (16 bits) | `0` | -32,768 to 32,767 | `Short` | `short year = 2025;` |
+| `int` | 4 bytes (32 bits) | `0` | -2,147,483,648 to 2,147,483,647 | `Integer` | `int salary = 50000;` |
+| `long` | 8 bytes (64 bits) | `0L` | -2<sup>63</sup> to 2<sup>63</sup>-1 | `Long` | `long population = 8100000000L;` |
+| `float` | 4 bytes (32 bits) | `0.0f` | ±3.40282347E+38 (~6-7 decimal digits) | `Float` | `float price = 99.99f;` |
+| `double` | 8 bytes (64 bits) | `0.0d` | ±1.7976931348623157E+308 (~15-16 decimal digits) | `Double` | `double pi = 3.141592653589793;` |
+| `char` | 2 bytes (16 bits) | `'\u0000'` | 0 to 65,535 (Unicode) | `Character` | `char grade = 'A';` |
+| `boolean` | JVM dependent* | `false` | `true` or `false` | `Boolean` | `boolean isActive = true;` |

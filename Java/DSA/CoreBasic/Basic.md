@@ -50,8 +50,7 @@ Triangle:
 
 
 <details>
-<summary>1. Find the missing number:  <br>
-Input: [1,2,3,4,6] , Output: 5 </summary>
+<summary>1. Find the missing number:  Input: [1,2,3,4,6] , Output: 5 </summary>
 
 #### Find sum of n numbers; Substract sum from array elements;
     - sum = n*(n+1)/2
@@ -93,9 +92,7 @@ private static boolean isPrime(int number){
 
 
 <details>
-<summary> 3. Two Sum <br>
-nums = [2, 7, 11, 15], target = 9 <br>
-Output: [0,1] - [2,7]
+<summary> 3. Two Sum , INPUT: nums = [2, 7, 11, 15], target = 9 ; Output: [0,1] - [2,7]
 </summary>
 
 ```declarative
