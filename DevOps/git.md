@@ -1,5 +1,28 @@
 # GIT : 
 
+### Workflow
+- Gitflow Workflow : Complex workflow, suitable for large projects with multiple developers.
+  - Require to maintain Main and dev branch, Along with feature, release and hotfix branches.
+  - Slow down development process due to multiple branches and merging.
+  - Suitable for projects with multiple releases and hotfixes.
+- GitHub Flow : Simple workflow.
+  - Require to maintain only Main branch, Along with feature branches. Anything in Main branch is always deployable.
+  - Faster development process due to less branches and merging.
+  - Suitable for projects with continuous deployment and delivery.
+- Trunk Based Development : Simple workflow,
+  - Merge to main continuously with flags for features which are not ready to be released. Once feature is ready, remove the flag and release it.
+  - Faster development process due to less branches and merging.
+  - Suitable for fast development projects with continuous deployment and delivery.
+
+
+| Workflow | Branches | Merging | Description                                                                                                                     |
+| --- | --- | --- |---------------------------------------------------------------------------------------------------------------------------------|
+| Gitflow | Main, Dev, Feature, Release, Hotfix | Complex merging | Large projects with multiple developers and releases , Required for maintain multiplr long lived branches makes it more complex |
+| GitHub Flow | Main, Feature | Simple merging | Merge to main directly.                                                                                                         |
+| Trunk Based Development | Main, Feature | Simple merging | Merge with flag for features, Test coverage should be high to avoid accidental merge and deploy                                 |
+
+
+
 Git is tool used for VSC, SCM 
 - VCS - Version Control System.
 - SCM - Source Control Management

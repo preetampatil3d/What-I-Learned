@@ -32,7 +32,7 @@ for (int i = 0; i < n; i++) {
 
 
 <details>
-<summary>Formulas for shapes; Squar, circle, tringle</summary>
+<summary>Basic formulas; Squar, circle, tringle</summary>
 
 ```
 Circle:
@@ -44,6 +44,10 @@ Square:
 Triangle:
     Area = 0.5 * b * h
     Perimeter = a + b + c
+    
+Percentage = (obtained marks / total marks) * 100
+ValueForPercentage = (percentage * total marks) / 100
+
 ```
 
 </details>
@@ -108,7 +112,6 @@ Set<Integer> set = new HashSet<>();
 //          map.put(nums[i], i);
       }
 ```
-
 
 </details>
 
