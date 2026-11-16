@@ -4,8 +4,8 @@
 ### Problem 
 - Tight coupling: services call each other directly using HTTP.
   - If one service is down, the other service also be affected.
-- Sychronous Execution: Services executes in linear fashion, step by step.
-  - long running service will block the execution of other services.
+- Synchronous Execution: Services executes in linear fashion, step by step.
+  - long-running service will block the execution of other services.
 - Loss of data: If one service is down, data received will be lost. 
 - Example: Order -> Payment -> Inventory -> Shipping
 
@@ -53,13 +53,14 @@
   - A message consists of a key, value, and metadata (such as timestamp and headers).
   - messages are immutable and stored for limited time (Default: 1 week)
 
-![img.png](img.png)
+![img.png](../img.png)
 
 - Message Key: A key that decides which partition a message should be sent to.
   - If no key / key = null : Kafka will use round-robin to distribute messages across partitions.
 - Message Value: The actual data that is being sent in the message.
 - Compression Type: The algorithm used to compress the message data before sending it to Kafka.
   - Types: none, gzip, snappy, lz4, zstd | default: none
+  - Which one to use : 
 - Header: Optional metadata that can be included with a message, such as a content type or custom attributes.
 - Partition + Offset: The partition and offset of a message, which uniquely identifies it within a topic.
 
@@ -80,7 +81,7 @@
   - Need to connect only broker and kafka client will discover other brokers in the cluster.
   - Each broker knows about all brokers in the cluster, topics and partitions.
 
-![img_1.png](img_1.png)
+![img_1.png](../img_1.png)
 
 
 ### Topic Replication
@@ -101,19 +102,14 @@
 - acks = all / -1
   - Producer will wait for acknowledgment from leader partition and all in-sync replicas (ISRs) before considering the message as successfully sent.
 
-### Zookeeper
+### Zookeeper -
 - Zookeeper in distributed coordination service that helps manage and coordinate distributed systems. It provides a centralized service for maintaining configuration information, naming, providing distributed synchronization, and group services.
 - Post kafka 2.8, zookeeper is no longer required for kafka cluster management. Kafka has its own built-in consensus mechanism called KRaft (Kafka Raft) that replaces the need for zookeeper.
 - Kafka 4.0 will remove zookeeper support completely.
 
-
-
-
-
-
-
-
-
 - Event Stream: A sequence of events that are related to each other.
 - Event-Driven Architecture: A software architecture pattern that uses events to trigger and communicate between decoupled services. 
+
+
+
 
